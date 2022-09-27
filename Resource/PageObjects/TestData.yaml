@@ -1,0 +1,27 @@
+TestData:
+  #URL: 'https://keycloak.impl.10.0.14.241.nip.io/auth/realms/Safaricom/account/applications'
+  #URL: 'https://keycloak.prod.10.0.14.241.nip.io/auth/realms/Safaricom/protocol/openid-connect/auth?client_id=CRMUI&redirect_uri=https%3A%2F%2Fprod.crm-impl.10.0.14.241.nip.io%2Fcrm-ui%2Fhome&state=90625d2a-c635-4faf-9813-ccec6c2fabcf&response_mode=fragment&response_type=code&scope=openid&nonce=b8d37a43-e5eb-4d4c-8827-82d97867d2b0'
+  URL: 'https://keycloak.prod.10.0.14.241.nip.io/auth/realms/Safaricom/protocol/openid-connect/auth?client_id=CRMUI&redirect_uri=https%3A%2F%2Fprod.crm-impl.10.0.14.241.nip.io%2Fcrm-ui&state=3f318530-b889-49b1-85c1-44eb282ae0bf&response_mode=fragment&response_type=code&scope=openid&nonce=a3442aa2-c5b7-4de5-b33f-41af8a715a33'
+  Browser: 'chrome'
+  Environment : 'localtestbed'
+  USER:
+    nms_user:
+      username: 'nmsadmin'
+      password: 'Nmsadmin@123'
+    crm_user:
+      username: 'crmtest@6d.co.in'
+      password: 'Admin@123'
+      #password: '6D@admin'
+    upc_user:
+      username: 'upcmaintainer'
+      password: 'Upcmaintainer@123'
+  CRM_TestData: D:/Repositories2/wkd_auto-29-06-2022/wkd_auto-29-06-2022/Resource/TestData/CRMTestdata.xlsx
+  UPC_TestData: C:/Users/abhishek.jayalal/Desktop/Wakanda_automation/Resource/TestData/NMSTestdata.xlsx
+  NMS_TestData: C:/Users/abhishek.jayalal/Desktop/Wakanda_automation/Resource/TestData/UPCTestdata.xlsx
+  #WKD_CRM_TESTDATA: C:/Users/abhishek.jayalal/Desktop/Wakanda/20-06-2022/wkd_auto-20-06-2022/Resource/TestData/WKD_DATAPOOL.xlsx
+  WKD_CRM_TESTDATA:  D:/Repositories2/wkd_auto-29-06-2022/wkd_auto-29-06-2022/Resource/TestData/WKD_TESTDATA.xlsx
+  SCREENSHOT_LOC: D:/Repositories2/wkd_auto-29-06-2022/wkd_auto-29-06-2022/TestCases/Screenshots
+  CRM_ADDRESS_DATA:
+  OrderDetail:
+    orderId: '1234567'
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 5.0 (Python 3.10.4 on win32)" generated="20220330 12:53:36.128" rpa="false" schemaversion="3">
+<suite id="s1" name="Api" source="C:\Users\abhishek.jayalal\Desktop\Wakanda_automation\Resource\PageKeywords\api.robot">
+<kw name="Create Session" library="RequestsLibrary" type="SETUP">
+<arg>jsonplaceholder</arg>
+<arg>https://jsonplaceholder.typicode.com</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20220330 12:53:36.266" level="INFO">Creating Session using : alias=jsonplaceholder, url=https://jsonplaceholder.typicode.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20220330 12:53:36.266" endtime="20220330 12:53:36.267"/>
+</kw>
+<test id="s1-t1" line="9">
+<status status="FAIL" starttime="20220330 12:53:36.267" endtime="20220330 12:53:36.268">Test name cannot be empty.</status>
+</test>
+<status status="FAIL" starttime="20220330 12:53:36.130" endtime="20220330 12:53:36.269"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="Api">Api</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

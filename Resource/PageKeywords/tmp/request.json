@@ -1,0 +1,224 @@
+{
+    "orderType": "Onboarding",
+    "description": "Onboarding order",
+    "externalId": "12131201260471212",
+    "profile": {
+        "birthDate": "18-04-1997",
+        "familyName": "Joy289790",
+        "givenName": "Test123",
+        "nationality": "3",
+        "title": "1",
+        "partyCharacteristic": [
+            {
+                "name": "profileType",
+                "valueType": "string",
+                "value": "0"
+            },
+            {
+                "name": "subscriberCategory",
+                "valueType": "string",
+                "value": "23"
+            },
+            {
+                "name": "minorFlag",
+                "valueType": "string",
+                "value": "0"
+            },
+            {
+                "name": "subscriberSubCategory",
+                "valueType": "string",
+                "value": "231"
+            },
+            {
+                "name": "biometricId",
+                "valueType": "string",
+                "value": "42132430338"
+            },
+            {
+                "name": "paymentPreference",
+                "valueType": "string",
+                "value": "2,1"
+            }
+        ],
+        "languageAbility": [
+            {
+                "languageCode": "4"
+            }
+        ],
+        "individualIdentification": [
+            {
+                "attachment": [
+                    {
+                        "content": "pdf",
+                        "description": "passport pdf",
+                        "mimeType": "pdf",
+                        "name": "passport_joy.pdf",
+                        "url": "wwww.docsshare.com/customer11/passport/passport_joy.pdf",
+                        "kycReferenceId": "2212334289790"
+                    }
+                ],
+                "identificationId": "P122355289790",
+                "identificationType": "107",
+                "issuingAuthority": "ethiopian embassy",
+                "issuingDate": "28-02-2019 12:00:00",
+                "validFor": {
+                    "endDateTime": "01-03-2028 00:00:00",
+                    "startDateTime": "01-03-2019 00:00:00"
+                }
+            }
+        ],
+        "contactMedium": [
+            {
+                "preferred": false,
+                "mediumType": "telephoneNumber",
+                "characteristic": {
+                    "phoneNumber": "251187000069",
+                    "contactType": "smsNumber"
+                }
+            },
+            {
+                "preferred": false,
+                "mediumType": "telephoneNumber",
+                "characteristic": {
+                    "faxNumber": "251187000070",
+                    "contactType": "faxNumber"
+                }
+            },
+            {
+                "characteristic": {
+                    "contactType": "alternateSmsNumber",
+                    "altPhoneNumber": "251187000071"
+                },
+                "mediumType": "telephoneNumber"
+            },
+            {
+                "preferred": false,
+                "mediumType": "emailAddress",
+                "characteristic": {
+                    "emailAddress": "Williamjoy2@87@gmail.com",
+                    "contactType": "emailAddress"
+                }
+            },
+            {
+                "mediumType": "address",
+                "characteristic": {
+                    "contactType": "residentialAddress",
+                    "addrLine1": "house no 268",
+                    "addrLine2": "1000 ADDIS ABABA",
+                    "addrLine3": "Kebele 1, 1302/29",
+                    "addrLine4": 2,
+                    "addrLine5": 1,
+                    "addrLine6": 1,
+                    "addrLine7": 1,
+                    "addrLine8": "1000",
+                    "addrLine9": "P.O. Box 1519",
+                    "addrLine10": "8.9806",
+                    "addrLine11": "38.7578"
+                }
+            },
+            {
+                "characteristic": {
+                    "contactType": "permanentAddress",
+                    "addrLine1": "house no 268",
+                    "addrLine2": "1000 ADDIS ABABA",
+                    "addrLine3": "Kebele 1, 1302/29",
+                    "addrLine4": 2,
+                    "addrLine5": 1,
+                    "addrLine6": 1,
+                    "addrLine7": 1,
+                    "addrLine8": "1000",
+                    "addrLine9": "P.O. Box 1519",
+                    "addrLine10": "8.9806",
+                    "addrLine11": "38.7578"
+                },
+                "mediumType": "address"
+            }
+        ],
+        "account": {
+            "chargingPattern": "2",
+            "languageId": "1",
+            "name": "Joy",
+            "remarks": "string",
+            "title": "Mr",
+            "preferredCurrency": "USSD",
+            "contactMedium": [
+                {
+                    "mediumType": "address",
+                    "characteristic": {
+                        "contactType": "billingAddress",
+                        "addrLine1": "house no 268",
+                        "addrLine2": "1000 ADDIS ABABA",
+                        "addrLine3": "Kebele 1, 1302/29",
+                        "addrLine4": 2,
+                        "addrLine5": 1,
+                        "addrLine6": 1,
+                        "addrLine7": 1,
+                        "addrLine8": "1000",
+                        "addrLine9": "P.O. Box 1519",
+                        "addrLine10": "8.9806",
+                        "addrLine11": "38.7578"
+                    }
+                }
+            ],
+            "serviceGroups": [
+                {
+                    "services": [
+                        {
+                            "serviceId": "251793000732",
+                            "isSimPaired": "false",
+                            "name": "GSM Service",
+                            "languageId": "1",
+                            "serviceType": "Master",
+                            "networkServiceId": "1",
+                            "chargingPattern": "2",
+                            "contactMedium": [
+                                {
+                                    "mediumType": "address",
+                                    "characteristic": {
+                                        "contactType": "residentialAddress",
+                                        "addrLine1": "house no 268",
+                                        "addrLine2": "1000 ADDIS ABABA",
+                                        "addrLine3": "Kebele 1, 1302/29",
+                                        "addrLine4": 2,
+                                        "addrLine5": 1,
+                                        "addrLine6": 1,
+                                        "addrLine7": 1,
+                                        "addrLine8": "1000",
+                                        "addrLine9": "P.O. Box 1519",
+                                        "addrLine10": "8.9806",
+                                        "addrLine11": "38.7578"
+                                    }
+                                }
+                            ],
+                            "characteristics": [
+                                {
+                                    "name": "ICCID",
+                                    "valueType": "string",
+                                    "value": "8925102406450009248"
+                                },
+                                {
+                                    "name": "IMSI",
+                                    "valueType": "string",
+                                    "value": "636024060009248"
+                                }
+                            ],
+                            "subscriptions": [
+                                {
+                                    "planId": "23",
+                                    "planType": "0",
+                                    "planName": "Prepaid StarterPack PO",
+                                    "autoRenewal": "0"
+                                }
+
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "authentication": {
+        "authType": "Biometric",
+        "authId": "Biometric"
+    }
+}

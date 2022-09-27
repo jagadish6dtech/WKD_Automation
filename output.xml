@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 5.0 (Python 3.10.4 on win32)" generated="20220614 13:09:36.013" rpa="false" schemaversion="3">
+<suite id="s1" name="Wkd Auto-13-06-2022 3" source="C:\Users\abhishek.jayalal\Desktop\Wakanda\14-06-2022\wkd_auto-13-06-2022_3">
+<suite id="s1-s1" name="TestCases" source="C:\Users\abhishek.jayalal\Desktop\Wakanda\14-06-2022\wkd_auto-13-06-2022_3\TestCases">
+<suite id="s1-s1-s1" name="OnBoarding TestCases" source="C:\Users\abhishek.jayalal\Desktop\Wakanda\14-06-2022\wkd_auto-13-06-2022_3\TestCases\OnBoarding_TestCases.robot">
+<test id="s1-s1-s1-t1" name="Sample TestCase For Automation FrameWork" line="17">
+<kw name="Execute Suite Setup as User" type="SETUP">
+<msg timestamp="20220614 13:09:37.483" level="FAIL">No keyword with name 'Execute Suite Setup as User' found.</msg>
+<status status="FAIL" starttime="20220614 13:09:37.483" endtime="20220614 13:09:37.483"/>
+</kw>
+<kw name="Execute Suite Teardown" type="TEARDOWN">
+<msg timestamp="20220614 13:09:37.495" level="FAIL">No keyword with name 'Execute Suite Teardown' found.</msg>
+<status status="FAIL" starttime="20220614 13:09:37.495" endtime="20220614 13:09:37.495">No keyword with name 'Execute Suite Teardown' found.</status>
+</kw>
+<doc>Sample TestCase For Automation FrameWork</doc>
+<status status="FAIL" starttime="20220614 13:09:37.467" endtime="20220614 13:09:37.495">Setup failed:
+No keyword with name 'Execute Suite Setup as User' found.
+
+Also teardown failed:
+No keyword with name 'Execute Suite Teardown' found.</status>
+</test>
+<doc>Sample TestCase For Automation FrameWork</doc>
+<status status="FAIL" starttime="20220614 13:09:36.132" endtime="20220614 13:09:37.497"/>
+</suite>
+<status status="FAIL" starttime="20220614 13:09:36.127" endtime="20220614 13:09:37.499"/>
+</suite>
+<status status="FAIL" starttime="20220614 13:09:36.041" endtime="20220614 13:09:37.500"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="Wkd Auto-13-06-2022 3">Wkd Auto-13-06-2022 3</stat>
+<stat pass="0" fail="1" skip="0" id="s1-s1" name="TestCases">Wkd Auto-13-06-2022 3.TestCases</stat>
+<stat pass="0" fail="1" skip="0" id="s1-s1-s1" name="OnBoarding TestCases">Wkd Auto-13-06-2022 3.TestCases.OnBoarding TestCases</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20220614 13:09:37.147" level="ERROR">Error in file 'C:\Users\abhishek.jayalal\Desktop\Wakanda\14-06-2022\wkd_auto-13-06-2022_3\TestCases\OnBoarding_TestCases.robot' on line 5: Resource file '..\Resource\PageKeywords\LoginPageKeyword.robot' does not exist.</msg>
+<msg timestamp="20220614 13:09:37.151" level="ERROR">Error in file 'C:\Users\abhishek.jayalal\Desktop\Wakanda\14-06-2022\wkd_auto-13-06-2022_3\TestCases\OnBoarding_TestCases.robot' on line 6: Resource file '..\Resource\PageKeywords\SearchOrderKeyword.robot' does not exist.</msg>
+<msg timestamp="20220614 13:09:37.155" level="ERROR">Error in file 'C:\Users\abhishek.jayalal\Desktop\Wakanda\14-06-2022\wkd_auto-13-06-2022_3\TestCases\OnBoarding_TestCases.robot' on line 7: Resource file '..\Resource\PageKeywords\OnBoarding_via_KYC_API.robot' does not exist.</msg>
+<msg timestamp="20220614 13:09:37.463" level="ERROR">Error in file 'C:\Users\abhishek.jayalal\Desktop\Wakanda\14-06-2022\wkd_auto-13-06-2022_3\TestCases\OnBoarding_TestCases.robot' on line 9: Resource file '..\Resource\PageKeywords\SearchOrder.robot' does not exist.</msg>
+<msg timestamp="20220614 13:09:37.465" level="ERROR">Error in file 'C:\Users\abhishek.jayalal\Desktop\Wakanda\14-06-2022\wkd_auto-13-06-2022_3\TestCases\OnBoarding_TestCases.robot' on line 10: Library '..\Resource\PageKeywords\OnBoardingAPI.py' does not exist.</msg>
+</errors>
+</robot>

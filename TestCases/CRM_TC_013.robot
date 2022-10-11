@@ -29,12 +29,12 @@ ${ServiceDetailsPage}  ${CRMPage}[ServiceDetailsPage]
 ${HomePage}  ${CRMPage}[HomePage]        # Importing Home page Components
 
 *** Test Cases ***
-TEST CASE 012
+TEST CASE 013
     [Documentation]     "Create, View and Download Batch file upload"
     Login to SSO UI  ${CRM_CREDENTIAL}[username]  ${CRM_CREDENTIAL}[password]
 
-    Create Batch file upload   TC_001  TD_01
-
+    View and Download Batch file upload  TC_001  TD_01
+    #Create Batch file upload   TC_001  TD_01
     Sleep  10s
 
 

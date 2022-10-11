@@ -33,9 +33,12 @@ TEST CASE 011
     [Documentation]     "View Audit History"
     Login to SSO UI  ${CRM_CREDENTIAL}[username]  ${CRM_CREDENTIAL}[password]
 
-
-    Audit History   TC_001  TD_01
+    ${row}=  Read Number of Rows  ${WKD_CRM_TESTDATA}   AuditHistory_1
+    Log To Console    ${row}
+    AuditHistory  ${row}
     sleep  10s
+
+
 
 
 

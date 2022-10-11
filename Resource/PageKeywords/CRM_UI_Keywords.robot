@@ -13,6 +13,7 @@ Library     SeleniumLibrary
 Library    Collections
 Library    String
 Library    ReadDataFromExcel
+Library    AppiumLibrary
 Variables    ../../Resource/PageObjects/PageObjects.yaml
 Variables    ../../Resource/PageObjects/TestData.yaml
 Resource     ./Common.robot
@@ -55,13 +56,13 @@ Manage tab
     [Arguments]     ${Managetab}
     #Verify elements is visible and displayed  ${Managetab}
     wait until element is visible    ${Managetab}
-    Wait Until Keyword Succeeds    ${TimeOut}      ${Start}      click element      ${Managetab}
+    Wait Until Keyword Succeeds    ${TimeOut}      ${Start}      Click Item       ${Managetab}
     
 
 Set Month
-   [Arguments]   ${Locator}    ${Month}
+   [Arguments]   ${Locator}  ${dropdown}     ${Month}
    Click Item    ${Locator}
-   #Set Dropdown5       //select[@class='react-datepicker__month-select']      ${Month}
+   Set Dropdown4      ${dropdown}      ${Month}
 
 Set Year
   [Arguments]    ${Locator}  ${Year}  ${dropdown}
@@ -89,7 +90,7 @@ Start Time
 
 Go Back to Home Page
     [Documentation]    To Navigate to Home screen of CRM UI
-    Wait Until Keyword Succeeds    ${TimeOut}      ${Start}      click element   ${HomePage}[HomeButton]
+    Wait Until Keyword Succeeds    ${TimeOut}      ${Start}      Click Item    ${HomePage}[HomeButton]
 
 
 Set Slider
@@ -173,11 +174,11 @@ Edit Account Details two
     ${EMAIL_NOTIFICATION}=  getData  ${ACCOUNT}  EMAIL_NOTIFICATION
 
     Search By ID  ${HomePage}[HomeSeachOptionAccountId]  ${ACCOUNT_ID}
-    Sleep  2s
+    Sleep  7s
+    TakePic  AccountDtails.png
     Click Item  ${AccoutDetailPage}[EditDetails]
-    Sleep  2s
     Set Input  ${AccoutDetailPage}[AccountName]  ${ACCOUNT_NAME}
-    Sleep  4s
+    Sleep  2s
 #    Set Dropdown  ${AccoutDetailPage}[LanguageDropdown]  ${LANGUAGE}
 #    Set Input  ${AccoutDetailPage}[ContactInput]  ${CONTACT_NO}
 #    Set Dropdown  ${AccoutDetailPage}[AccountManagerDropdown]  ${KEY_ACC_MANAGER}
@@ -203,7 +204,11 @@ Edit Account Details two
 
     Click Item  ${AccoutDetailPage}[Submit]
     Sleep  2s
-    Go Back to Home Page
+    Click Item   //div[@class='text-md-right action-button p-0 col-md-6']//div[2]
+    Sleep  2s
+
+
+    #Go Back to Home Page
 
 Edit Service Details two
     [Documentation]    To edit Sevice level details
@@ -213,16 +218,17 @@ Edit Service Details two
     ${serviceIndex}=  getData  ${data}  SERVICE_NAME
 
     Search By ID  ${HomePage}[HomeSeachOptionServiceId]  ${SERVICE_ID}
-    Sleep  2s
+    Sleep  7s
+    Scroll Element Into View    //input[@id='ocsMaBalance']
+    ${ServiceId}=  SeleniumLibrary.Get Text   //input[@id='serviceId']
+    Log To Console   ${ServiceId}
+    ${ServiceName}=  SeleniumLibrary.Get Text   //input[@id='serviceId']
+    Log To Console   ${ServiceName}
     Click Item  ${ServiceDetailsPage}[EditDetails]
     Set Input  ${ServiceDetailsPage}[ServiceNameInput]      ${serviceIndex}
     Sleep  2s
     Click Item  ${ServiceDetailsPage}[Submit]
-    Sleep  2s
-    Go Back to Home Page
-
-
-
+    Sleep  4s
 
 
 Manage Profile Residential Address two
@@ -248,10 +254,10 @@ Manage Profile Residential Address two
     #Sleep  2s
     ##Manage tab  ${ProfileDetailsPage}[ManageProfile]
     #Click Item  ${ProfileDetailsPage}[ManageProfile]
-    Sleep  2s
+    #Sleep  2s
     Click Item  ${ProfileDetailsPage}[ManageProfileAddress]
     Sleep  2s
-    Click Item  ${ProfileDetailsPage}[ResidentialAddressEdit]
+    Click Item   //form[@id='res-addr']//button[@name='buttonName'][normalize-space()='Edit Address']
     Sleep  2s
     Set Dropdown  ${ProfileDetailsPage}[Residential_ProfileRegionDropdown]  ${REGION}
     Set Dropdown  ${ProfileDetailsPage}[Residential_ProfileZoneDropdown]  ${ZONE}
@@ -291,10 +297,11 @@ Manage Profile Permanent Address two
     Sleep  2s
     ##Manage tab  ${ProfileDetailsPage}[ManageProfile]
     #Click Item  ${ProfileDetailsPage}[ManageProfile]
+    #Click Item  ${ProfileDetailsPage}[ManageProfileAddress]
     #Sleep  2s
-    Click Item  ${ProfileDetailsPage}[ManageProfileAddress]
-    Sleep  2s
-    Click Item  ${ProfileDetailsPage}[PermanentAddressEdit]
+    Click Item  //form[@id='permanent-addr']//button[@name='buttonName'][normalize-space()='Edit Address']
+    #Sleep  2s
+    #Click Item  ${ProfileDetailsPage}[PermanentAddressEdit]
     Sleep  2s
     Set Dropdown  ${ProfileDetailsPage}[ProfileRegionDropdown]  ${REGION}
     Set Dropdown  ${ProfileDetailsPage}[ProfileZoneDropdown]  ${ZONE}
@@ -371,10 +378,10 @@ Manage Service Address One
     ${Longitude}=  getData  ${data}  LONGITUDE
     ${Comment}=  getData  ${data}  COMMENT
 
-    Search By ID  ${HomePage}[HomeSeachOptionServiceId]  ${SERVICE_ID}
-    #Manage tab  ${ServiceDetailsPage}[ManageService]
-    Click Item  ${ServiceDetailsPage}[ManageService]
-    Sleep  2s
+#    Search By ID  ${HomePage}[HomeSeachOptionServiceId]  ${SERVICE_ID}
+#    #Manage tab  ${ServiceDetailsPage}[ManageService]
+#    Click Item  ${ServiceDetailsPage}[ManageService]
+#    Sleep  2s
     Click Item  ${ServiceDetailsPage}[AddressDetail]
     Sleep  2s
     Click Item  ${ServiceDetailsPage}[AddressEdit]
@@ -428,25 +435,28 @@ change SIM ID
     ${PAYMENT}=  getData  ${data}  PAYMENT
     ${WAVEOFF}=  getData  ${data}  WAVEOFF
     ${ICCIDNumber}=  getData  ${data}  ICCIDNumber
+    ${COMMENT}=  getData  ${data}  COMMENT
 
 
-    Search By ID  ${HomePage}[HomeSeachOptionServiceId]  ${SERVICE_ID}
+    #Search By ID  ${HomePage}[HomeSeachOptionServiceId]  ${SERVICE_ID}
     #Click Item    ${ServiceDetailsPage}[ManageService]
     Click Item  //div[contains(text(),'Manage Service')]
     #Click Item    ${ServiceDetailsPage}[ManageSim]
     Click Item  //a[normalize-space()='Change SIM']
-    Click Item    ${ServiceDetailsPage}[ChangeSimButton]
-    Set Input     //input[@placeholder='Search']    ${ICCIDNumber}
     Sleep  2s
-    Click Item     //div[@class='search-box d-flex ']//span//*[name()='svg']
+    TakePic    SimDetails.png
+    Click Item    ${ServiceDetailsPage}[ChangeSimButton]
+    #Set Input     //input[@placeholder='Search']    ${ICCIDNumber}
+    #Sleep  2s
+    #Click Item     //div[@class='search-box d-flex ']//span//*[name()='svg']
     Sleep  5s
     Click Item    ${ServiceDetailsPage}[NewICCIDSimID]
     #Click Item    ${ServiceDetailsPage}[SimChangeReasonDropdown]
     #Click Item    ${ServiceDetailsPage}[SimChangeReasonDropdownOption1]
     Set Dropdown  ${ServiceDetailsPage}[SimChangeReasonDropdown]  ${REASON}
     Click Item    ${ServiceDetailsPage}[SimChangeComment]
-    Set Input  ${ServiceDetailsPage}[SimChangeComment]      Edit1
-    Click Item    ${ServiceDetailsPage}[SimChangeSubmit]
+    Set Input  ${ServiceDetailsPage}[SimChangeComment]      ${COMMENT}
+    Click Item    //button[normalize-space()='Submit']
     Sleep  5s
 
     #Select Radio Button   upfrontPayment    2
@@ -470,7 +480,9 @@ change SIM ID
 #
 #    Click Item    (//button[text()='Submit'])[2]
 #    Click Item    //span[@class='MuiIconButton-label']//*[name()='svg']
-    Go Back to Home Page
+     Click Item   //div[@class='col-md-12']//div[1]//div[2]
+     Sleep  4s
+
 
 
 
@@ -496,17 +508,17 @@ View Document Details
     [Arguments]     ${caseID}  ${dataID}
     ${PROFILE}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  PROFILE_DETAILS  ${caseID}  ${dataID}
     ${PROFIE_ID}=  getData  ${PROFILE}  PROFIE_ID
-    ${DOCUMENT_NUMBER}=  getData  ${PROFILE}  DOCUMENT_NUMBER
+    ${DOCUMENT_NAME}=  getData  ${PROFILE}  DOCUMENT_NAME
 
     #Search By ID  ${HomePage}[HomeSeachOptionProfileId]  ${PROFIE_ID}
     #Click Item  ${ProfileDetailsPage}[ManageProfile]
     scroll element into view     ${ProfileDetailsPage}[ViewDocumentDetails]
     Click Item  ${ProfileDetailsPage}[ViewDocumentDetails]
-    Set Input         ${ProfileDetailsPage}[InputDocumentID]   ${DOCUMENT_NUMBER}
+    Set Input         ${ProfileDetailsPage}[InputDocumentID]   ${DOCUMENT_NAME}
     Click Item  ${ProfileDetailsPage}[DocumentSearch]
     Sleep  4s
-    #Click Item   //button[@aria-label='Download']//div[2]
-    #Sleep  4s
+    Click Item   //button[@aria-label='Download']//div[2]
+    Sleep  4s
     #Go Back to Home Page
 
 
@@ -807,6 +819,7 @@ Edit Profile Details at Enterprise Level
 
     Search By ID  ${HomePage}[HomeSeachOptionProfileId]  ${PROFIE_ID}
     Sleep  5s
+    TakePic    ProfileDetails2.png
     Click Item  ${ProfileDetailsPage}[EditProfileDetail]
     Sleep  4s
     Set Input    (//input[@id='companyName'])[2]   ${CompanyName}
@@ -822,11 +835,31 @@ Edit Profile Details at Enterprise Level
     Set Input      //input[@id='noOfVoiceLines']   ${NoOfVoiceLines}
     Set Input      //textarea[@name='businessDescription']  ${BusinessDescription}
     Click Item  ${ProfileDetailsPage}[EditProfileSubmit]
-    Sleep  2s
+    Sleep  12s
     Click Item     //div[@class='text-md-right action-button p-0 col-md-6']//div[2]
-    Click Item  //a//span[text()='Dashboard']
-    Sleep  10s
-    Go Back to Home Page
+    Sleep  05s
+
+    Click Item    //span[normalize-space()='Accounts - 1']
+    Click Item    //tbody//div[2]
+    Sleep  07s
+    ${AccountId}=  SeleniumLibrary.Get Element Attribute   //input[@id='accountId']     value
+    Log To Console   ${AccountId}
+    ${AccountName}=  SeleniumLibrary.Get Element Attribute   //input[@id='accountName']     value
+    Log To Console   ${AccountName}
+    Sleep  4s
+
+    Click Item    //span[normalize-space()='Services - 2']
+    Click Item    //tbody//div[2]
+    Sleep  07s
+    ${ServiceId}=  SeleniumLibrary.Get Element Attribute   //input[@id='serviceId']     value
+    Log To Console    ${ServiceId}
+    ${SericeName}=  SeleniumLibrary.Get Element Attribute   //input[@id='serviceName']     value
+    Log To Console  ${SericeName}
+    Sleep  4s
+    Click Item    //span[normalize-space()='Profile ID']
+
+
+
 
 Onboarding-SA_FORMS
    [Arguments]     ${caseID}  ${dataID}
@@ -889,8 +922,9 @@ Onboarding-SA_FORMS
    Sleep  4s
    Click Item     //button[normalize-space()='Next >>']
    Click Item     //button[normalize-space()='Submit']
-   Sleep  30s
-   ${OrderId}=   Get Text   //span[starts-with(text(),'102')]
+   Sleep  10s
+   TakePic   Onboarding.png
+   ${OrderId}=   SeleniumLibrary.Get Text   //span[starts-with(text(),'102')]
    Log To Console   ${OrderId}
    Click Item     //button[normalize-space()='Done']
    Sleep  2s
@@ -902,17 +936,24 @@ Onboarding-SA_FORMS
 #   Click Item     //button[text()='YES']
 #   Sleep  5s
 
-   click element   ${OrderSearch}[Ordertab]
+   Click Item   ${OrderSearch}[Ordertab]
    Sleep  2s
-   click element   ${OrderSearch}[viewOrder]
+   Click Item    ${OrderSearch}[viewOrder]
    Sleep  2s
    Set Input  ${OrderSearch}[OrderSearchbar]     ${OrderId}
-   click element   ${OrderSearch}[SearchButton]
+   Click Item   ${OrderSearch}[SearchButton]
    Sleep  4s
+   ${OnboardingOrderStatus}   SeleniumLibrary.Get Text   //tbody/tr[1]/td[4]/b[1]
+   Log To Console  ${OnboardingOrderStatus}
+   TakePic   OnboardingStatus.png
    scroll element into view     (//button[@type='button'])[7]
-   click element   (//button[@type='button'])[7]
-   click element   //button[@aria-label='View']
+   Click Item    (//button[@type='button'])[7]
+   Click Item    //button[@aria-label='View']
    Sleep  5s
+   Scroll Element Into View    //td[normalize-space()='Pair Sim in NMS']
+   TakePic   FailureStatus.png
+   Click Item     //button[text()='Cancel']
+
 
 
 Add Service
@@ -933,24 +974,33 @@ Add Service
    Click Item     //button[@aria-label='Add Service']//div[2]
    Click Item     //button[normalize-space()='Next >>']
    Click Item     //button[normalize-space()='Submit']
-   Sleep  20s
-   ${OrderId}=   Get Text   //span[starts-with(text(),'102')]
+   Sleep  10s
+   TakePic   AddService.png
+   ${OrderId}=  SeleniumLibrary.Get Text   //span[starts-with(text(),'102')]
    Log To Console   ${OrderId}
    Click Item     //button[normalize-space()='Done']
    Sleep  4s
 
-   click element   ${OrderSearch}[Ordertab]
-   Sleep  2s
-   click element   ${OrderSearch}[viewOrder]
+   #click element   ${OrderSearch}[Ordertab]
+   #Sleep  2s
+   Click Item    ${OrderSearch}[viewOrder]
    Sleep  2s
    Set Input  ${OrderSearch}[OrderSearchbar]     ${OrderId}
-   click element   ${OrderSearch}[SearchButton]
+   Click Item    ${OrderSearch}[SearchButton]
+   ${AddServiceOrderStatus}   SeleniumLibrary.Get Text   //tbody/tr[1]/td[4]/b[1]
+   Log To Console  ${AddServiceOrderStatus}
    Sleep  4s
+   TakePic   AddSeviceStatus.png
    scroll element into view     (//button[@type='button'])[7]
-   click element   (//button[@type='button'])[7]
-   click element   //button[@aria-label='View']
+   Click Item    (//button[@type='button'])[7]
+   Click Item    //button[@aria-label='View']
+   Sleep  4s
+   Scroll Element Into View    //td[normalize-space()='Pair Sim in NMS']
+   TakePic   FailureStatus.png
    Sleep  5s
-
+   Click Item     //button[text()='Cancel']
+   #Should Be Equal As Strings    ${OnboardingOrderStatus}    Completed
+   Should Be Equal As Strings    ${AddServiceOrderStatus}     Completed
 
 Create, Edit and Delete Message Template
    [Arguments]     ${caseID}  ${dataID}
@@ -980,6 +1030,8 @@ Create, Edit and Delete Message Template
 
   Set Input      (//input[@id='messageId'])[1]   ${Message_ID}
   Click Item     //button[normalize-space()='Search']
+  Sleep  2s
+  TakePic  Created Message Template.png
   Click Item     //button[@aria-label='Edit']//div[2]
   Set Input      (//input[@id='messageText'])[2]   ${Remessage_Text}
   Set Input       //textarea[@id='comment']      ${ReComment}
@@ -990,10 +1042,13 @@ Create, Edit and Delete Message Template
 
   Set Input      (//input[@id='messageId'])[1]   ${Message_ID}
   Click Item     //button[normalize-space()='Search']
+  sleep  2s
+  TakePic   Modified Message Template.png
   Click Item     //button[@aria-label='Delete']//div[2]
   Sleep  2s
   Click Item     //button[normalize-space()='YES']
-  Sleep  1s
+  Sleep  2s
+  TakePic   Deleted Message Template.png
   Handle PopUp    //span[normalize-space()='Message Template Delete Success']    Message Template Delete Success
 
 Create, Edit and Delete Token Management
@@ -1021,7 +1076,8 @@ Create, Edit and Delete Token Management
 
   Set Input    //input[@id='tokenId']     ${Token_ID}
   Click Item   //button[normalize-space()='Search']
-
+  Sleep  2s
+  TakePic   Token Creation.png
   Click Item    //button[@aria-label='Edit']//div[2]
   Set Input      (//input[@id='tokenId'])[2]  ${Modify_Token_ID}
   Set Input      (//input[@id='tokenName'])[2]   ${Modify_Token_Name}
@@ -1033,10 +1089,14 @@ Create, Edit and Delete Token Management
 
   Set Input    //input[@id='tokenId']     ${Modify_Token_ID}
   Click Item   //button[normalize-space()='Search']
+  Sleep  2s
+  TakePic   Token Modified.png
   Click Item     //button[@aria-label='Delete']//div[2]
   Click Item     //button[normalize-space()='YES']
-  Sleep  2s
+  Sleep  4s
   Handle PopUp    //span[normalize-space()='Token Deletion Success']    Token Deletion Success
+  Sleep  2s
+  TakePic   Token Deleted.png
   Sleep  5s
 
 
@@ -1058,21 +1118,21 @@ Skip OrderId
   Sleep  4s
   Handle PopUp    //span[normalize-space()='Your Request is Processed for Skip']   Your Request is Processed for Skip
   Sleep  4s
-  click element   ${OrderSearch}[viewOrder]
+  Click Item    ${OrderSearch}[viewOrder]
   Sleep  2s
   Click Item    //div[@class='table_refreshIcon']//div[2]
   Set Input  ${OrderSearch}[OrderSearchbar]      ${ORDER_ID}
-  click element   ${OrderSearch}[SearchButton]
+  Click Item    ${OrderSearch}[SearchButton]
   Sleep  4s
   scroll element into view     (//button[@type='button'])[7]
-  click element   (//button[@type='button'])[7]
+  Click Item    (//button[@type='button'])[7]
   Sleep  4s
-  click element   //button[@aria-label='View']
+  Click Item    //button[@aria-label='View']
   Sleep  4s
   Scroll Element Into View    //div[text()='Pair Sim in NMS']//following-sibling::span[2]
   Sleep  4s
   TakePic   Skipped.png
-  ${String}=  get text    //div[text()='Pair Sim in NMS']//following-sibling::span[2]
+  ${String}=  SeleniumLibrary.get text    //div[text()='Pair Sim in NMS']//following-sibling::span[2]
   Log To Console  ${String}
   Should be equal  ${String}   Skipped
   Click Item    ${OrderSearch}[OrderCloseButton]
@@ -1112,31 +1172,31 @@ Retry OrderId
     ${ORDER_ID}=  getData  ${data}  ORDER_ID
     Log To Console  ${ORDER_ID}
 
-    #Click Item   ${OrderSearch}[Ordertab]
+    Click Item   ${OrderSearch}[Ordertab]
     Sleep  2s
     Click Item   //a[@id='/failedOrders']
     Sleep  2s
     Set Input  ${OrderSearch}[OrderSearchbar]      ${ORDER_ID}
     Click Item   ${OrderSearch}[SearchButton]
     Sleep  4s
-    ${Status}=  Get Text   //td[starts-with(text(),'424 :: Connection')]
+    ${Status}=  SeleniumLibrary.Get Text   //td[starts-with(text(),'424 :: Connection')]
     Print    FailedReason: ${Status}
     Click Item   //button[@aria-label='retry']//span[@class='MuiIconButton-label']
     Sleep  4s
     Handle PopUp   //span[normalize-space()='Your Request is Processed for Retry']   Your Request is Processed for Retry
-    click element   ${OrderSearch}[viewOrder]
+    Click Item    ${OrderSearch}[viewOrder]
     Set Input  ${OrderSearch}[OrderSearchbar]       ${ORDER_ID}
-    click element   ${OrderSearch}[SearchButton]
+    Click Item    ${OrderSearch}[SearchButton]
     Sleep  25s
     Click Item    //div[@class='table_refreshIcon']//div[2]
     Sleep  2s
     scroll element into view     (//button[@type='button'])[7]
-    click element   (//button[@type='button'])[7]
+    Click Item    (//button[@type='button'])[7]
     Sleep  4s
-    click element   //button[@aria-label='View']
+    Click Item    //button[@aria-label='View']
     Sleep  4s
     Scroll Element Into View        (//td[starts-with(text(),'400 :: Protected MSISDN')])[2]
-    ${FailedStatusAfterRetry}=  Get Text      (//td[starts-with(text(),'400 :: Protected MSISDN')])[2]
+    ${FailedStatusAfterRetry}=  SeleniumLibrary.Get Text      (//td[starts-with(text(),'400 :: Protected MSISDN')])[2]
     Print    FailedReason: ${FailedStatusAfterRetry}
     Should Not Be Equal   ${Status}     ${FailedStatusAfterRetry}
     TakePic   Retry.png
@@ -1155,32 +1215,158 @@ Search Order By OrderId
     ${data}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  ORDER_INFO  ${caseID}  ${dataID}
     ${ORDER_ID}=  getData  ${data}  ORDER_ID
     Log To Console  ${ORDER_ID}
-    click element   ${OrderSearch}[Ordertab]
-    click element   ${OrderSearch}[viewOrder]
+    Click Item    ${OrderSearch}[Ordertab]
+    Click Item    ${OrderSearch}[viewOrder]
     Set Input  ${OrderSearch}[OrderSearchbar]      ${ORDER_ID}
-    click element   ${OrderSearch}[SearchButton]
+    Click Item    ${OrderSearch}[SearchButton]
     scroll element into view     (//button[@type='button'])[7]
-    click element   (//button[@type='button'])[7]
-    click element   //button[@aria-label='View']
+    Click Item    (//button[@type='button'])[7]
+    Click Item    //button[@aria-label='View']
     Sleep  10s
-    click element   ${OrderSearch}[OrderCloseButton]
+    Click Item    ${OrderSearch}[OrderCloseButton]
 
  Audit History
     [Documentation]    To look Up Audit History
-    [Arguments]     ${caseID}  ${dataID}
-    ${data}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  AuditHistory  ${caseID}  ${dataID}
-    ${Feature_Name}=  getData  ${data}  Feature_Name
-    ${Operation_Name}=  getData  ${data}  Operation_Name
+    [Arguments]     ${row}
+
+    Click Item    //div[contains(text(),'Reports')]
+    Click Item    //a[@id='/auditHistory']
+    Click Item    //span[@class='adv_search']
+
+    FOR  ${i}  IN RANGE  0  ${row}-1
+
+      ${data}=  Fetch Row Data   ${WKD_CRM_TESTDATA}  AuditHistory_1   ${i}
+      ${Feature_Name}=  get_Value1  ${data}  Feature_Name
+      ${Operation_Name}=  get_Value1  ${data}  Operation_Name
+      ${Status}=  get_Value1  ${data}  Status
+      ${StartDate}=  get_Value1  ${data}  StartDate
+      ${User}=  get_Value1  ${data}  User
+      ${IP Addess}=  get_Value1  ${data}  IP Addess
+      ${ServiceId}=  get_Value1  ${data}  ServiceId
+      ${AccountId}=  get_Value1  ${data}  AccountId
+      ${ProfileId}=  get_Value1  ${data}  ProfileId
+      ${Scenario}=  get_Value1  ${data}   Scenario
 
 
-   Click Item    //div[contains(text(),'Reports')]
-   Click Item    //a[@id='/auditHistory']
-   Click Item    //span[@class='adv_search']
-   Set Dropdown  (//label[normalize-space()='Feature Name']/following-sibling::div//div)[2]     ${Feature_Name}
-   Set Dropdown  (//label[normalize-space()='Operation Name']/following-sibling::div//div)[2]   ${Operation_Name}
-   Click Item    //button[normalize-space()='Search']
-   Sleep  4s
-   Scroll Element Into View    //tbody/tr[7]/td[1]
+
+      IF    '${Scenario}' == 'FilterBy FeatureName and Operation Name'
+      Set Dropdown  (//label[normalize-space()='Feature Name']/following-sibling::div//div)[2]     ${Feature_Name}
+      Set Dropdown  (//label[normalize-space()='Operation Name']/following-sibling::div//div)[2]   ${Operation_Name}
+      Click Item    //button[normalize-space()='Search']
+      Scroll Element Into View    //tbody/tr[7]/td[1]
+      Sleep  2s
+      Take pic  AuditHistory1.png
+      Sleep  4s
+      ${Featurename}=  SeleniumLibrary.Get Text     //tbody/tr[1]/td[1]
+      ${Operationname}=  SeleniumLibrary.Get Text     //tbody/tr[1]/td[2]
+      Should Be Equal As Strings     ${Featurename}    ${Feature_Name}
+      Should Be Equal As Strings     ${Operationname}    ${Operation_Name}
+      Log To Console   ${Featurename}
+      Log To Console   ${Operationname}
+      Click Item  //button[normalize-space()='Reset']
+      END
+
+      IF    '${Scenario}' == 'FilterBy Success Status with StartDate'
+      Scroll Element Into View    (//label[normalize-space()='Status']/following-sibling::div//div)[2]
+      Set Dropdown   (//label[normalize-space()='Status']/following-sibling::div//div)[2]   ${Status}
+      Sleep  2s
+      #${ele}   SeleniumLibrary.Get WebElement      //input[@class='react-datepicker-ignore-onclickoutside']
+      #Execute Javascript   arguments[0].click();    ARGUMENTS      ${ele}
+      Scroll Element Into View     (//div[@class='react-datepicker-wrapper'])[1]
+      Set Date   (//div[@class='react-datepicker-wrapper'])[1]   ${StartDate}
+      Click Item    //button[normalize-space()='Search']
+      Sleep  4s
+      Scroll Element Into View    //tbody/tr[7]/td[1]\
+      Take pic     AuditHistory2.png
+      ${Status}=  SeleniumLibrary.Get Text     //tbody/tr[1]/td[6]
+      ${Startdate}=  SeleniumLibrary.Get Text     //tbody/tr[1]/td[7]
+      Should Be Equal As Strings     ${Status}   Success
+      #Should Be Equal As Strings     ${Startdate}   29/09/2022
+      Log To Console   ${Status}
+      Log To Console     ${Startdate}
+      Sleep  4s
+      Click Item  //button[normalize-space()='Reset']
+      #Set Dropdown    (//label[normalize-space()='User']/following-sibling::div//div)[2]    ${User}
+      END
+
+      IF    '${Scenario}' == 'FilterBy Badrequest Status with StartDate'
+      Scroll Element Into View    (//label[normalize-space()='Status']/following-sibling::div//div)[2]
+      Set Dropdown   (//label[normalize-space()='Status']/following-sibling::div//div)[2]   ${Status}
+      Scroll Element Into View     (//div[@class='react-datepicker-wrapper'])[1]
+      Set Date   (//div[@class='react-datepicker-wrapper'])[1]    ${StartDate}
+      Click Item    //button[normalize-space()='Search']
+      Scroll Element Into View    //tbody/tr[7]/td[1]
+      ${Status}=  SeleniumLibrary.Get Text     //tbody/tr[1]/td[6]
+      ${Startdate}=  SeleniumLibrary.Get Text     //tbody/tr[1]/td[7]
+      Should Be Equal As Strings     ${Status}     ${Status}
+      #Should Be Equal As Strings     ${Startdate}   29/09/2022
+      Log To Console   ${Status}
+      Log To Console     ${Startdate}
+      Sleep  2s
+      TakePic     AuditHIstory3.png
+      Sleep  4s
+      Click Item  //button[normalize-space()='Reset']
+      END
+
+      IF    '${Scenario}' == 'FilterBy IP Address'
+      Scroll Element Into View   //input[@id='ip']
+      Set Input   //input[@id='ip']   ${IP Addess}
+      Click Item    //button[normalize-space()='Search']
+      Scroll Element Into View    //tbody/tr[7]/td[1]
+      Sleep  4s
+      ${IPaddress}=  SeleniumLibrary.Get Text     //tbody/tr[1]/td[5]
+      Log To Console    ${IPaddress}
+      Should Be Equal As Strings   ${IPaddress}  ${IP Addess}
+      Sleep  2s
+      TakePic   AuditHistory4.png
+      Sleep  4s
+      Click Item  //button[normalize-space()='Reset']
+      END
+
+      IF    '${Scenario}' == 'FilterBy ServiceId'
+      Scroll Element Into View   //input[@id='serviceId']
+      Set Input   //input[@id='serviceId']   ${ServiceId}
+      Click Item    //button[normalize-space()='Search']
+      Scroll Element Into View    //tbody/tr[7]/td[1]
+      sleep  2s
+      TakePic  AuditHistory5.png
+      ${Serviceid}=  SeleniumLibrary.Get Text     //tbody/tr[1]/td[8]
+      Log To Console    ${IPaddress}
+      Should Be Equal As Strings   ${Serviceid}  ${ServiceId}
+      Sleep  4s
+      Click Item  //button[normalize-space()='Reset']
+      END
+
+      IF    '${Scenario}' == 'FillterBy AccountId'
+      Scroll Element Into View    //input[@id='accountId']
+      Set Input   //input[@id='accountId']   ${AccountId}
+      Click Item    //button[normalize-space()='Search']
+      Scroll Element Into View    //tbody/tr[7]/td[09]
+      ${Accountid}=  SeleniumLibrary.Get Text     //tbody/tr[1]/td[9]
+      Log To Console   ${Accountid}
+      Should Be Equal As Strings   ${Accountid}  ${AccountId}
+      Sleep  2s
+      TakePic    AuditHistory6.png
+      Sleep  4s
+      Click Item  //button[normalize-space()='Reset']
+      END
+
+      IF    '${Scenario}' == 'FilterBy ProfileId'
+      Scroll Element Into View  //input[@id='profileId']
+      Set Input   //input[@id='profileId']   ${ProfileId}
+      Click Item    //button[normalize-space()='Search']
+      Sleep  2s
+      Scroll Element Into View    //tbody/tr[5]/td[10]
+      ${Profileid}=  SeleniumLibrary.Get Text     //tbody/tr[1]/td[10]
+      Log To Console   ${Profileid}
+      Should Be Equal As Strings   ${Profileid}  ${ProfileId}
+
+      sleep  2s
+      TakePic     AuditHistory7.png
+      Sleep  4s
+      #Click Item  //button[normalize-space()='Reset']
+      END
+    END
 
 
 View Voucher details and Recharge Voucher
@@ -1198,15 +1384,15 @@ View Voucher details and Recharge Voucher
    Set Input     //input[@id='cardSerialNumber']    ${Serial_Number}
    Click Item    //button[normalize-space()='Search']
    Sleep  4s
-   ${SerialNumber}=  Get Element Attribute    //input[@id='serialNumber']  value
+   ${SerialNumber}=  SeleniumLibrary.Get Element Attribute    //input[@id='serialNumber']  value
    Should be equal  ${SerialNumber}    12345678
    Print     Serial_Number: ${SerialNumber}
 
-   ${MSISDN}=  Get Element Attribute    //input[@id='msisdn']  value
+   ${MSISDN}=  SeleniumLibrary.Get Element Attribute    //input[@id='msisdn']  value
    Should be equal  ${MSISDN}    861347865213
    Print     MSISDN: ${MSISDN}
 
-   ${CardStatus}=  Get Element Attribute   //input[@id='cardStatus']  value
+   ${CardStatus}=  SeleniumLibrary.Get Element Attribute   //input[@id='cardStatus']  value
    Should be equal  ${CardStatus}    new
    Print     Card_Status: ${CardStatus}
    Sleep  5s
@@ -1216,6 +1402,8 @@ View Voucher details and Recharge Voucher
    Set Input      //input[@id='serviceId']   ${ServiceID}
    Set Input     //input[@id='cardPinNumber']  ${CardPin}
    Click Item    //button[normalize-space()='Submit']
+   Sleep  2s
+   TakePic   ErrorMessage.png
 
 Create Batch file upload
   [Arguments]     ${caseID}  ${dataID}
@@ -1283,15 +1471,37 @@ Create Batch file upload
   Handle PopUp      //span[normalize-space()='Batch file is uploaded successfully to processed']    Batch file is uploaded successfully to processed
   END
 
+View and Download Batch file upload
+  [Arguments]     ${caseID}  ${dataID}
 
-#  Click Item    //span[@class='adv_search']
-#  Set Input   //input[@id='batchId']   1022086515020296192
-#  Click Item  //button[normalize-space()='Search']
-#  Click Item    //tbody//div[2]
-#
-#  Click Item    //button[@class='action-btn-popover btn btn-secondary']
-#  Click Item    //div[@class='popover-body']//div[2]
+  ${data}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  BatchFileUpload   ${caseID}  ${dataID}
+  ${BatchId}=  getData  ${data}  BatchId
+  ${BatchType}=  getData  ${data}  BatchType
+  ${Status}=  getData  ${data}  Status
+  ${Channel}=  getData  ${data}  Channel
 
+  Click Item    //div[contains(text(),'Batch')]
+  Click Item    //a[@id='/batchProcess']
+
+  Click Item    //span[@class='adv_search']
+  #Set Input   //input[@id='batchId']    ${BatchId}
+  Set Dropdown   (//label[normalize-space()='Batch Type']/following-sibling::div//div)[2]  ${BatchType}
+  Set Dropdown   (//label[normalize-space()='Status']/following-sibling::div//div)[2]     ${Status}
+  Set Dropdown   (//label[normalize-space()='Channel']/following-sibling::div//div)[2]   ${Channel}
+  Click Item  //button[normalize-space()='Search']
+  Sleep  4s
+  Click Item    //tbody//div[2]
+  Sleep  4s
+  Takepic  BatchfileDetails.png
+  Click Item  //button[normalize-space()='Done']
+
+  Click Item    //button[@class='action-btn-popover btn btn-secondary']
+  Click Item    //div[@class='popover-body']//div[2]
+  Sleep  4s
+
+  Click Item    //button[@class='action-btn-popover btn btn-secondary']
+  Click Item  //button[@aria-label='detailed Report']//div[2]
+  Sleep  4s
 
 
 Manage Contact
@@ -1310,7 +1520,7 @@ Manage Contact
     Sleep  10s
     Click Item   //div[@class='table_refreshIcon']//div[2]
 
-    ${ContactNumber}=  Get Text    //tbody/tr[1]/td[3]
+    ${ContactNumber}=  SeleniumLibrary.Get Text    //tbody/tr[1]/td[3]
     Should be equal  ${ContactNumber}    8147681411
     Print     Serial_Number: ${ContactNumber}
 
@@ -1323,38 +1533,446 @@ Manage Contact
     #Page Should Not Contain     8147681411
 
 
-Identification Details for Enterprice
+Create Identification Details for Enterprice
 
    [Documentation]    To view and validate identification details
    [Arguments]     ${caseID}  ${dataID}
    ${PROFILE}=   Fetch From Excel  ${WKD_CRM_TESTDATA}  PROFILE_DETAILS  ${caseID}  ${dataID}
    ${PROFIE_ID}=  getData  ${PROFILE}  PROFIE_ID
    ${ID_NUMBER}=  getData  ${PROFILE}  ID_NUMBER
-   Search By ID  ${HomePage}[HomeSeachOptionProfileId]  ${PROFIE_ID}
+   ${Filepath}=  getData  ${PROFILE}   Filepath
+   ${StartDate}=  getData  ${PROFILE}   StartDate
+   ${Expiry Date}=  getData  ${PROFILE}  Expiry Date
+   ${IDType}=  getData  ${PROFILE}       IDType
+   ${DocumentDescription}=  getData  ${PROFILE}      DocumentDescription
+
+   #Search By ID  ${HomePage}[HomeSeachOptionProfileId]  ${PROFIE_ID}
    Click Item  ${ProfileDetailsPage}[ManageProfile]
    Click Item  ${ProfileDetailsPage}[IdentificationDetails]
-   Verify elements is visible and displayed  //td[normalize-space()='${ID_NUMBER}']
+
+   Click Item    //button[normalize-space()='Attach ID Details']
+   Set Dropdown   (//label[normalize-space()='ID Type']/following-sibling::div//div)[2]   ${IDType}
+   Set Input      //input[@id='identificationNumber']   ${ID_NUMBER}
+   Set Date     (//div[@class='react-datepicker__input-container'])[1]     ${StartDate}
+   Click Item   (//div[@class='react-datepicker__input-container'])[2]
+   Click Item    //div[@id='actionPopUp']//select[2]
+   Click Item   //option[@value='2025']
+   Set Input   //input[@name='fileDescription']   ${DocumentDescription}
+   Execute Javascript   var xpath = document.evaluate("//input[@accept='.txt,.pdf']", document,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null).singleNodeValue.style.setProperty('display', 'block');
+   File Uplaod     //input[@type='file']    ${Filepath}
+   Sleep  4s
+   Click Item  //button[normalize-space()='Submit']
+   Sleep  4s
+   Handle PopUp     //span[normalize-space()='Order Placed Successfully']   Order Placed Successfully
+   TakePic     Identificationdetails.png
+   Click Item    //div[@class='table_refreshIcon']
+
+
    Click Item    //button[@aria-label='View']//div[2]
    Click Item    //button[normalize-space()='Upload Document']
-   Set Input     //input[@name='fileDescription']  ResidentialDocument
+   Set Input     //input[@name='fileDescription']  ${DocumentDescription}
    Execute Javascript   var xpath = document.evaluate("//input[@accept='.txt,.pdf']", document,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null).singleNodeValue.style.setProperty('display', 'block');
-   File Uplaod     //input[@type='file']    D:\Repositories2\wkd_auto-29-06-2022\wkd_auto-29-06-2022\TestCases\passport copy (1).pdf
+   File Uplaod     //input[@type='file']       ${Filepath}
    Click Item    //button[normalize-space()='Submit']
    Sleep  4s
+   Handle PopUp     //span[normalize-space()='Order Placed Successfully']   Order Placed Successfully
    Click Item   //button[@aria-label='Download']//div[2]
    Sleep  4s
    Click Item     //button[normalize-space()='Done']
 
+Modify and Delete Identification Details for Enterprice
+
+   [Documentation]    To view and validate identification details
+   [Arguments]     ${caseID}  ${dataID}
+   ${PROFILE}=   Fetch From Excel  ${WKD_CRM_TESTDATA}  PROFILE_DETAILS  ${caseID}  ${dataID}
+   ${PROFIE_ID}=  getData  ${PROFILE}  PROFIE_ID
+   ${ID_NUMBER}=  getData  ${PROFILE}  ID_NUMBER
+   ${Filepath}=  getData  ${PROFILE}   Filepath
+   ${StartDate}=  getData  ${PROFILE}   StartDate
+   ${Expiry Date}=  getData  ${PROFILE}  Expiry Date
+   ${IDType}=  getData  ${PROFILE}       IDType
+   ${DocumentDescription}=  getData  ${PROFILE}      DocumentDescription
+
+
    Click Item     //button[@aria-label='Edit']//div[2]
-   Set Dropdown    (//label[normalize-space()='ID Type']/following-sibling::div//div)[2]   Driver license
-   Set Input       //input[@id='identificationNumber']    212345646872310
-   Set Year  //input[@class='react-datepicker-ignore-onclickoutside']   (//select)[3]    2010
-   Set Year   //input[@class='react-datepicker-ignore-onclickoutside']   (//select)[3]    2015
+   Set Dropdown    (//label[normalize-space()='ID Type']/following-sibling::div//div)[2]   ${IDType}
+   Set Input       //input[@id='identificationNumber']    ${ID_NUMBER}
+   Click Item    (//div[@class='react-datepicker__input-container'])[1]
+   Set Date     (//div[@class='react-datepicker__input-container'])[1]   ${StartDate}
+   Click Item    (//div[@class='react-datepicker__input-container'])[2]
+   Set Date     (//div[@class='react-datepicker__input-container'])[2]   ${Expiry Date}
+   Sleep  2s
    Click Item    //button[normalize-space()='Modify']
+   Sleep  4s
+   Handle PopUp     //span[normalize-space()='Order Placed Successfully']   Order Placed Successfully
+   Sleep  10s
+   Click Item    //div[@class='table_refreshIcon']
+   TakePic     ModifiedIdenticationDetails.png
+   ${IDNumber}=  SeleniumLibrary.Get Text    //tr[1]/td[3]
+   Should Be Equal As Strings    ${IDNumber}    ${ID_NUMBER}
+
+   Click Item     //button[@aria-label='Delete']//div[2]
+   Click Item    //button[text()='YES']
+   Sleep  4s
+   Handle PopUp     //span[normalize-space()='Order Placed Successfully']   Order Placed Successfully
+   Click Item    //div[@class='table_refreshIcon']
+   sleep  10s
+   Page Should Not Contain    ${ID_NUMBER}
+   TakePic     DeleteIdentificationDetails.png
+   #Go Back to Home Page
+
+
+Manaage Profile Company Address
+   [Documentation]    To edit Profile level recidential address
+   [Arguments]     ${caseID}  ${dataID}
+
+   ${data}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  PROFILE_ADDRESS  ${caseID}  ${dataID}
+   ${PROFIE_ID}=  getData  ${data}  PROFIE_ID
+   ${REGION}=  getData  ${data}  REGION
+   ${ZONE}=  getData  ${data}  ZONE
+   ${WOREDA}=  getData  ${data}  WOREDA
+   ${Union}=  getData  ${data}  UNION
+   ${HomeNo}=  getData  ${data}  HOME_NO
+   ${StreetNo}=  getData  ${data}  STREET_NO
+   ${POCode}=  getData  ${data}  PO_CODE
+   ${POBox}=  getData  ${data}  PO_BOX
+   ${Latitude}=  getData  ${data}  LATITUDE
+   ${Longitude}=  getData  ${data}  LONGITUDE
+   ${Comment}=  getData  ${data}  COMMENT
+
+
+   #Search By ID  ${HomePage}[HomeSeachOptionProfileId]  ${PROFIE_ID}
+   #Sleep  2s
+   #Click Item  ${ProfileDetailsPage}[ManageProfile]
+   #Sleep  2s
+   Click Item  ${ProfileDetailsPage}[ManageProfileAddress]
+   Sleep  2s
+   Click Item  //button[normalize-space()='Edit Address']
+   Sleep  2s
+   Set Dropdown   (//label[normalize-space()='Region/City Administration']/following-sibling::div//div)[2]  ${REGION}
+   Set Dropdown  (//label[normalize-space()='Zone/Sub-City']/following-sibling::div//div)[2]  ${ZONE}
+   Set Dropdown    (//label[normalize-space()='Woreda']/following-sibling::div//div)[2]    ${WOREDA}
+   Set Input     //input[@id='addressLine3']     ${Union}
+   Set Input    //input[@id='addressLine1']      ${HomeNo}
+   Set Input    //input[@id='addressLine2']    ${StreetNo}
+   Set Input    //input[@id='addressLine8']      ${POCode}
+   Set Input    //input[@id='addressLine9']   ${POBox}
+   Set Input   //input[@id='addressLine10']      ${Latitude}
+   Set Input   //input[@id='addressLine11']     ${Longitude}
+   Set Input   //textarea[@id='addressComment']    ${Comment}
+   Sleep  4s
+   Click Item  //button[normalize-space()='Submit']
+   Sleep  2s
+   Handle PopUp     //span[normalize-space()='Order Placed Successfully']   Order Placed Successfully
+   Click Item   //div[@class='text-md-right action-button p-0 col-md-6']//div[2]
+   Sleep  4s
+
+Document Details of ENterprise level
+    [Documentation]    To view and validate document details
+    [Arguments]     ${caseID}  ${dataID}
+    ${PROFILE}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  PROFILE_DETAILS  ${caseID}  ${dataID}
+    ${PROFIE_ID}=  getData  ${PROFILE}  PROFIE_ID
+    ${DOCUMENT_NAME}=  getData  ${PROFILE}  DOCUMENT_NAME
+    ${Filepath}=  getData  ${PROFILE}   Filepath
+    ${DocumentDescription}=  getData  ${PROFILE}   DocumentDescription
+
+    #Search By ID  ${HomePage}[HomeSeachOptionProfileId]  ${PROFIE_ID}
+    #Click Item  ${ProfileDetailsPage}[ManageProfile]
+    scroll element into view     ${ProfileDetailsPage}[ViewDocumentDetails]
+    Click Item  ${ProfileDetailsPage}[ViewDocumentDetails]
+    Click Item  //button[normalize-space()='Add Document']
+    Set Dropdown   (//label[normalize-space()='Document Type']/following-sibling::div//div)[2]   ${DOCUMENT_NAME}
+    Set Input   //input[@name='fileDescription']   ${DocumentDescription}
+    Execute Javascript   var xpath = document.evaluate("//input[@accept='.txt,.pdf']", document,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null).singleNodeValue.style.setProperty('display', 'block');
+    File Uplaod     //input[@type='file']       ${Filepath}
+    Click Item    //button[normalize-space()='Submit']
+    Sleep  4s
+
+    Set Input         ${ProfileDetailsPage}[InputDocumentID]   ${DOCUMENT_NAME}
+    Click Item  ${ProfileDetailsPage}[DocumentSearch]
+    Sleep  4s
+
+
+    Click Item   //button[@aria-label='Download']//div[2]
+    Sleep  4s
+
+    Click Item   //button[@aria-label='Delete']//div[2]
+    Click Item   //button[normalize-space()='YES']
+    Sleep  4s
+    Click Item  //div[@class='table_refreshIcon']//div[2]
+    Sleep  4s
+
+
+View Transcation History
+    [Arguments]     ${caseID}  ${dataID}
+    ${data}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  TranscationHistory  ${caseID}  ${dataID}
+    ${SERVICE_ID}=  getData  ${data}  SERVICE_ID
+    ${SheduleDate}=  getData  ${data}  SheduleDate
+    ${SheduleMonth}=  getData  ${data}  SheduleMonth
+    ${SheduleTime}=  getData  ${data}  SheduleTime
+    #${TranscationType}=  List len    TranscationType
+
+    #Search By ID  ${HomePage}[HomeSeachOptionServiceId]  ${SERVICE_ID}
+    Click Item   //span[normalize-space()='Transaction History']
+    Click Item   //span[@class='adv_search']
+    Sleep  2s
+    #Set Dropdown5    (//label[normalize-space()='Transaction Type']/following-sibling::div//div)[2]     ${TranscationType}
+    Click Item   (//div[@class='react-datepicker__input-container'])[1]
+    Set Month       (//select[1])[1]   //option[@value='September']  ${SheduleMonth}
+    Click Item   //div[@aria-label='${SheduleDate}']
+    Click Item   //li[normalize-space()='${SheduleTime}']
+    Click Item  //button[normalize-space()='Search']
+    Sleep  7s
+    Scroll Element Into View    //div[@class='pagination_record']
+    Sleep  4s
+
+    Click Item   (//span[contains(text(),'Details')])[4]
+    Sleep   4s
+    TakePic   Details.png
+    Click Item   //button[normalize-space()='Done']
+    sleep  4s
+
+    Click Item  (//span[contains(text(),'Bucket Details')])[1]
+    Sleep  4s
+    TakePic    Bucketdetails.png
+    Click Item   //button[normalize-space()='Done']
+    Sleep  4s
+
+    Click Item     //button[normalize-space()='Export']
+    Sleep  4s
+    TakePic  Export.png
+    Sleep  4s
+
+
+Plan Subscriptions
+    [Documentation]   View Plan Subscrptions
+    [Arguments]     ${caseID}  ${dataID}
+
+    ${data}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  OFFER  ${caseID}  ${dataID}
+    ${SERVICE_ID}=  getData  ${data}  SERVICE_ID
+    ${OFFER}=  getData  ${data}  OFFER
+    ${PlanId}=  getData  ${data}  PlanId
+    ${PlanStatus}=  getData  ${data}  PlanStatus
+    ${PlanType}=  getData  ${data}  PlanType
+
+    #Search By ID  ${HomePage}[HomeSeachOptionServiceId]  ${SERVICE_ID}
+    Click Item      ${ServiceDetailsPage}[PlanSubscriptionButton]
+    Sleep  2s
+    Scroll Element Into View   //div[@class='pagination_pageno']
+    Sleep  2s
+    TakePic   ViewPlan.png
+    Sleep  2s
+
+    Click Item   //span[@class='adv_search']
+    Set Input  //input[@id='planId']   ${PlanId}
+    Set Dropdown   (//label[normalize-space()='Status']/following-sibling::div//div)[2]    ${PlanStatus}
+    Set Dropdown   (//label[normalize-space()='Plan Type']/following-sibling::div//div)[2]   ${PlanType}
+    Click Item  //button[normalize-space()='Search']
+    Scroll Element Into View   //div[@class='pagination_pageno']
+    Sleep  4s
+    TakePic  ViewPlanByFilter.png
+    Sleep  4s
+
+
+OrderDetails in Service
+   [Documentation]   View OrderDetails
+    [Arguments]     ${caseID}  ${dataID}
+
+    ${data}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  OFFER  ${caseID}  ${dataID}
+    ${SERVICE_ID}=  getData  ${data}  SERVICE_ID
+    ${OFFER}=  getData  ${data}  OFFER
+    ${PlanId}=  getData  ${data}  PlanId
+    ${PlanStatus}=  getData  ${data}  PlanStatus
+    ${PlanType}=  getData  ${data}  PlanType
+    ${OrderId}=  getData  ${data}  OrderId
+
+    #Search By ID  ${HomePage}[HomeSeachOptionServiceId]  ${SERVICE_ID}
+    Click Item      //span[normalize-space()='Order Details']
+    Sleep  2s
+    Scroll Element Into View   //div[@class='pagination_record']
+    Sleep  4s
+    TakePic   ViewOrderDetails.png
+    Sleep  2s
+
+    Click Item   //span[@class='adv_search']
+    Set Input  //input[@id='orderId']   ${OrderId}
+    #Set Dropdown   (//label[normalize-space()='Status']/following-sibling::div//div)[2]    ${PlanStatus}
+    #Set Dropdown   (//label[normalize-space()='Plan Type']/following-sibling::div//div)[2]   ${PlanType}
+    Click Item  //button[normalize-space()='Search']
+    Scroll Element Into View   //div[@class='pagination_record']
+    Sleep  4s
+    TakePic  ViewOrderByFilter.png
+    Sleep  4s
+
+
+Notification Deatails
+    [Documentation]   View Notification Deatails
+    [Arguments]     ${caseID}  ${dataID}
+
+    ${data}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  NotificationDetails  ${caseID}  ${dataID}
+    ${SERVICE_ID}=  getData  ${data}  SERVICE_ID
+    ${Channel}=  getData  ${data}  Channel
+    ${SheduleDate}=  getData  ${data}  SheduleDate
+    ${SheduleMonth}=  getData  ${data}  SheduleMonth
+    ${SheduleTime}=  getData  ${data}  SheduleTime
+
+    #Search By ID  ${HomePage}[HomeSeachOptionServiceId]  ${SERVICE_ID}
+    Click Item   //span[normalize-space()='Notification Details']
+    Sleep  2s
+    Scroll Element Into View    //div[@class='pagination_pageno']
+    Sleep  2s
+    TakePic   ViewNotificationDetails.png
+    Click Item   //th[normalize-space()='Transaction ID']
+    Sleep  4s
+    Click Item   //span[@class='adv_search']
+    Set Dropdown  (//label[normalize-space()='Channel']/following-sibling::div//div)[2]    ${Channel}\
+    Click Item   (//div[@class='react-datepicker__input-container'])[1]
+    Set Month       (//select[1])[1]   //option[@value='August']  ${SheduleMonth}
+    Click Item   //div[@aria-label='${SheduleDate}']
+    Click Item   //li[text()='${SheduleTime}']
+
+#    Set Date   (//div[@class='react-datepicker__input-container'])[1]   ${SheduleDate}
+#    Click Item    //li[text()='${SheduleTime}']
+    Click Item  //button[normalize-space()='Search']
+    Scroll Element Into View    //div[@class='pagination_pageno']
+    Sleep  2s
+    TakePic   NotificationDetailsByFilter.png
+    #Click Item   //th[normalize-space()='Transaction ID']
+    Click Item  (//span[contains(text(),'Message')])[1]
+    Sleep  4s
+    TakePic  Message.png
+    Click Item    //button[normalize-space()='Done']
+
+
+View HLR Details
+    [Documentation]    To View HLR Details
+    [Arguments]     ${caseID}  ${dataID}
+    ${data}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  SERVICE_DETAILS  ${caseID}  ${dataID}
+    ${SERVICE_ID}=  getData  ${data}  SERVICE_ID
+
+
+#    Search By ID  ${HomePage}[HomeSeachOptionServiceId]  ${SERVICE_ID}
+    Click Item  ${ServiceDetailsPage}[ManageService]
+    Click Item    //a[@id='/crm-ui/profile/account/service/hlrManagement']
+    Sleep  2s
+    Scroll Element Into View     //div[@class='pagination_record']
+    Sleep  7s
+    TakePic  HLRDetails.png
+    ${ServiceName}=  SeleniumLibrary.Get Text   //tbody/tr[1]/td[1]
+    Print    ServiceName: ${ServiceName}
+
+    ${ServiceNameStatus}=  SeleniumLibrary.Get Text   //tbody/tr[1]/td[2]
+    Print    ServiceNameStatus: ${ServiceNameStatus}
 
 
 
-   Go Back to Home Page
+Change Status To Bar Service
+    [Documentation]    To Change Status
+    [Arguments]     ${caseID}  ${dataID}
+
+    ${data}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  ChangeStatus  ${caseID}  ${dataID}
+    ${SERVICE_ID}=  getData  ${data}  SERVICE_ID
+    ${Reason}=  getData  ${data}  Reason
+    ${Bar Service}=  getData  ${data}  Bar Service
+    ${UnBar Service}=  getData  ${data}  UnBar Service
+
+    Go Back to Home Page
+    Search By ID  ${HomePage}[HomeSeachOptionServiceId]    ${SERVICE_ID}
+    Click Item  ${ServiceDetailsPage}[ManageService]
+    Click Item    //a[@id='/crm-ui/profile/account/service/changeStatus']
+    Set Slider    Bar Service   ${Bar Service}
+    Set Dropdown   (//label[normalize-space()='Reason']/following-sibling::div//div)[2]    ${Reason}
+    Click Item    //button[normalize-space()='Submit']
+    #Sleep  300s
+    log to console     ${SERVICE_ID}
+
+    Click Item  //div[contains(text(),'Order Management')]
+    Click Item    ${OrderSearch}[viewOrder]
+    Sleep  2s
+    #Click Item    //div[@class='table_refreshIcon']//div[2]
+    Click Item   //span[@class='adv_search']
+    Set Dropdown   (//label[normalize-space()='Order Type']/following-sibling::div//div)[2]    LineBarring
+    Set Input     //input[@id='serviceId']   ${SERVICE_ID}
+    Click Item   (//div[@class='react-datepicker__input-container'])[1]
+    Click Item   //div[@class='react-datepicker__today-button']
+    Click Item   (//div[@class='react-datepicker__input-container'])[2]
+    Click Item   //div[@class='react-datepicker__today-button']
+    Click Item    ${OrderSearch}[SearchButton]
+    Sleep  4s
+    ${OrderStatus}=   Seleniumlibrary.Get Text  //tbody/tr[1]/td[4]
+    Log To Console    ${OrderStatus}
+
+Change Status To UnBar Service
+    [Documentation]    To Change Status
+    [Arguments]     ${caseID}  ${dataID}
+
+    ${data}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  ChangeStatus  ${caseID}  ${dataID}
+    ${SERVICE_ID}=  getData  ${data}  SERVICE_ID
+    ${Reason}=  getData  ${data}  Reason
+    ${Bar Service}=  getData  ${data}  Bar Service
+    ${UnBar Service}=  getData  ${data}  UnBar Service
+
+    Go Back to Home Page
+    Click Item   //div[contains(text(),'Order Management')]
+    Click Item    ${OrderSearch}[viewOrder]
+    Sleep  2s
+    #Click Item    //div[@class='table_refreshIcon']//div[2]
+    Click Item   //span[@class='adv_search']
+    Set Dropdown   (//label[normalize-space()='Order Type']/following-sibling::div//div)[2]    LineBarring
+    Set Input     //input[@id='serviceId']   ${SERVICE_ID}
+    Click Item   (//div[@class='react-datepicker__input-container'])[1]
+    Click Item   //div[@class='react-datepicker__today-button']
+    Click Item   (//div[@class='react-datepicker__input-container'])[2]
+    Click Item   //div[@class='react-datepicker__today-button']
+    Click Item    ${OrderSearch}[SearchButton]
+    Sleep  4s
+    ${OrderStatus}=   Seleniumlibrary.Get Text  //tbody/tr[1]/td[4]
+    Log To Console    ${OrderStatus}
+
+    Should Be Equal As Strings   ${OrderStatus}   Completed
+
+    Go Back to Home Page
+    Search By ID  ${HomePage}[HomeSeachOptionServiceId]    ${SERVICE_ID}
+    Click Item  ${ServiceDetailsPage}[ManageService]
+    Click Item    //a[@id='/crm-ui/profile/account/service/changeStatus']
+    Set Slider    UnBar Service   ${UnBar Service}
+    Click Item    //button[normalize-space()='Submit']
+    Sleep  4s
+
+
+View and Update Language
+    [Documentation]    View and Update Lunguage
+    [Arguments]     ${caseID}  ${dataID}
+
+    ${data}=  Fetch From Excel  ${WKD_CRM_TESTDATA}  UpdateLanguage  ${caseID}  ${dataID}
+    ${SERVICE_ID}=  getData  ${data}  SERVICE_ID
+    ${Languge}=  getData  ${data}  Languge
+    ${Comment}=  getData  ${data}  Comment
+
+    Search By ID  ${HomePage}[HomeSeachOptionServiceId]    ${SERVICE_ID}
+    Click Item  ${ServiceDetailsPage}[ManageService]
+    Click Item   //div[@class='MuiTypography-root MuiTreeItem-label MuiTypography-body1'][normalize-space()='Details']
+    Click Item    //a[@id='/crm-ui/profile/account/service/updateLanguage']
+    Sleep  2s
+    ${ActiveLanguage}=  SeleniumLibrary.Get Text    //div[@class='mdash-root col-md']//div[@class='mdash-value']
+    Log To Console    ${ActiveLanguage}
+    TakePic   ActiveLanguage.png
+
+    Set Dropdown   (//label[normalize-space()='Language']/following-sibling::div//div)[2]   ${Languge}
+    Set Input     //textarea[@id='comment']   ${Comment}
+    Click Item    //button[normalize-space()='Submit']
+
+    Sleep  4s
+    Click Item    //div[@class='col-md-12']//div[1]//div[2]
+    Sleep  4s
+    ${UpdatedActiveLanguage}=  SeleniumLibrary.Get Text    //div[@class='mdash-root col-md']//div[@class='mdash-value']
+    Log To Console    ${UpdatedActiveLanguage}
+    TakePic  UpdatedActiveLanguage.png
+
+    Should Be Equal As Strings    ${UpdatedActiveLanguage}    ${Languge}
+
+
+
 
 
 

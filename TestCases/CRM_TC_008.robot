@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation   "-Onboarding SA_FORM"
+Documentation   "-Onboarding SA_FORM and Add Service"
 Library     SeleniumLibrary
 Library     OperatingSystem
 Resource    ../Resource/PageKeywords/NMS_UI_Keyword.robot
@@ -30,7 +30,7 @@ ${HomePage}  ${CRMPage}[HomePage]        # Importing Home page Components
 
 *** Test Cases ***
 TEST CASE 008
-    [Documentation]     "-Onboarding SA_FORM"
+    [Documentation]     "-Onboarding SA_FORM and Add Service "
     Login to SSO UI  ${CRM_CREDENTIAL}[username]  ${CRM_CREDENTIAL}[password]
 
     Onboarding-SA_FORMS  TC_001  TD_01

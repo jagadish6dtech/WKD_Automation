@@ -36,23 +36,6 @@ def fetch_cell_data(filename, sheetname, row, cell):
     cell = sh.cell(int(row), int(cell))
     return cell.value
 
-# def getData(Data,Tag):
-#     dataSet= Data
-#     dataSet = dataSet.fillna('')
-#     if type(dataSet[Tag][0])!=str and dataSet[Tag][0]!='NaN' :
-#         dataSet[Tag] = dataSet[Tag].astype(np.int64)
-#     else:
-#         dataSet[Tag] = dataSet[Tag][0]
-#
-#     #dataSet[Tag] = dataSet[Tag].astype('str')
-#     #print(dataSet[Tag])
-#     return dataSet[Tag][0]
-
-
-# def getData(Data,Tag):
-#     dataSet=Data
-#     return dataSet[Tag].values[0]
-
 def getData(Data,Tag):
     dataSet= Data
     dataSet = dataSet.fillna('')
@@ -61,13 +44,49 @@ def getData(Data,Tag):
     else:
         dataSet[Tag] = dataSet[Tag][0]
 
-    dataSet[Tag] = dataSet[Tag].astype('str')
-    print(dataSet[Tag])
+    #dataSet[Tag] = dataSet[Tag].astype('str')
+    #print(dataSet[Tag])
     return dataSet[Tag].values[0]
 
+def get_Value1(Data,index):
+    dataSet=Data
+    #dataSet[index] = dataSet[index]
+    #dataSet = dataSet.fillna('')
+    return dataSet[index].values[0]
 
 
+def fetchRow(filename,sheetname,row):
+    data = pd.read_excel(filename, sheet_name=sheetname)
+    row=int(row)
+    row_data= data.loc[[row]]
 
+    return row_data
+
+def getListLen(list):
+    newList=[i for i in list.split(',')]
+
+    return len(newList)
+
+def getListData(list,index):
+
+    #listValue.append(i for i in list.split(','))
+    listVal=[]
+
+    for i in list.split(','):
+        listVal.append(i)
+
+    return listVal[int(index)]
+    #if index <= len(list)-1 and index >=0:
+    #    value=list[index]
+
+
+# a=fetchRow('C:/Users/abhishek.jayalal/Desktop/SMARTFERN_AUTOMATION/sf_auto_18_07_2022/sf_auto_07072022/Resource/TestData/SMARTFREN_DATAPOOL.xlsx','SMARTFREN_ISI_PULSA',0)
+# print(a)
+
+
+print(getListLen("3,2,5,6"))
+
+print(getListData("Mon,Su,Thu",0))
 
 
 

@@ -8,6 +8,7 @@ Library     OperatingSystem
 Library     SeleniumLibrary
 Library    Collections
 Library    String
+Library    ReadDataFromExcel
 Variables    ../../Resource/PageObjects/PageObjects.yaml
 Variables    ../../Resource/PageObjects/TestData.yaml
 Resource     ../../Resource/PageKeywords/Common.robot
@@ -43,4 +44,22 @@ OnboardingEKYC API
     [Arguments]  ${MSISDN}  ${ICCID}  ${IMSI}  ${FAMILYNAME}
     ${ORDER_ID}=  OnBoarding_API  ${MSISDN}  ${ICCID}  ${IMSI}  ${FAMILYNAME}
     [Return]  ${ORDER_ID}
+
+Fetch Row Data
+    [Arguments]  ${filename}  ${sheetname}  ${row}
+    ${rowdata}=  Fetch Row  ${filename}  ${sheetname}  ${row}
+    [Return]  ${rowdata}
+
+List len
+    [Arguments]  ${list}
+    ${listlen}=  getListLen  ${list}
+    [Return]  ${listlen}
+
+List Value
+    [Arguments]  ${list}  ${index}
+    ${listData}=  getListData  ${list}  ${index}
+    [Return]  ${listData}
+
+
+
 

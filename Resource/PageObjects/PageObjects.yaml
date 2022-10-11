@@ -44,7 +44,7 @@ CRMPage :
     #viewOrder: "//a[@id='/crm-ui/viewOrders']"
     Ordertype: "//div[@class=' css-g1d714-ValueContainer']"
     OrderSearchbar: "//input[@id='orderId']"
-    SearchButton: "//button[@class='sc-bczRLJ kGooYe']"
+    SearchButton: "//button[normalize-space()='Search']"
     OrderAction:  "//button[@class='action-btn-popover btn btn-secondary']"
     OrderView:  "//div[@class='popover-body']"
     OrderCloseButton: "//button[@aria-label='close']"

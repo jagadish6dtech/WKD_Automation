@@ -23,9 +23,9 @@ Verify elements is visible and displayed
     [Documentation]   Keyword to verify locator is enabled and visibled on a page.
     [Arguments]    ${locator}
     wait until element is enabled    ${locator}    timeout=60
-    wait until element is visible     ${locator}    timeout=60
-    page should contain element      ${locator}     timeout=60
-    Wait Until Keyword Succeeds    ${TimeOut}      ${Start}     wait until page contains element    ${locator}
+    SeleniumLibrary.wait until element is visible    ${locator}    timeout=60
+    SeleniumLibrary.page should contain element      ${locator}     timeout=60
+    Wait Until Keyword Succeeds    ${TimeOut}      ${Start}     SeleniumLibrary.wait until page contains element    ${locator}
 
 
 Print
@@ -150,12 +150,12 @@ Download should be done
 Click Item
     [Arguments]     ${locator}
     Verify elements is visible and displayed  ${locator}
-    Wait Until Keyword Succeeds    ${TimeOut}      ${Start}      click element      ${locator}
+    Wait Until Keyword Succeeds    ${TimeOut}      ${Start}      SeleniumLibrary.click element      ${locator}
 
 Handle PopUp
     [Arguments]     ${locator}  ${Expectedvalue}
     Verify elements is visible and displayed  ${locator}
-    ${String}=  get text     ${locator}
+    ${String}=  SeleniumLibrary.get text     ${locator}
     Log To Console  ------------------------
     Log To Console  ${String}
     Log To Console  ------------------------
@@ -195,8 +195,8 @@ Set Input
     Click Item  ${locator}
 
     Run Keyword If  '${value}' == 'nan'  Log To Console  NANACONDITION
-    ...  ELSE IF  '${value}' == 'BLANK'  Wait Until Keyword Succeeds    ${TimeOut}      ${Start}      input text      ${locator}  \
-    ...  ELSE  Wait Until Keyword Succeeds    ${TimeOut}      ${Start}      input text      ${locator}  ${value}
+    ...  ELSE IF  '${value}' == 'BLANK'  Wait Until Keyword Succeeds    ${TimeOut}      ${Start}      SeleniumLibrary.input text      ${locator}  \
+    ...  ELSE  Wait Until Keyword Succeeds    ${TimeOut}      ${Start}      SeleniumLibrary.input text      ${locator}  ${value}
 
 
 
@@ -240,7 +240,7 @@ Set Dropdown3
 TakePic
     [Arguments]     ${picname}
 
-    capture page screenshot  ${SCREENSHOT_LOC}/${picname}
+    Seleniumlibrary.capture page screenshot  ${SCREENSHOT_LOC}/${picname}
 
 Set dropdown4
     [Arguments]     ${dropdown}  ${Year}
@@ -260,3 +260,26 @@ Set dropdown4
         Click Item  //option[text()='${Year}']
     END
 
+Set Dropdown5
+    [Arguments]     ${dropdown}  ${locator_label}
+
+    #Log To Console  ${locator_label}
+    #Verify elements is visible and displayed  ${dropdown}
+    Click Item  ${dropdown}
+    #wait until element is visible    ${dropdown}
+    #Wait Until Keyword Succeeds    ${TimeOut}      ${Start}      click element      ${dropdown}
+    ${bool}=    Execute Javascript      var a = document.querySelectorAll('input[type=radio]');for(var i=0;i<a.length;i++){if(a[i].checked==true && a[i].nextSibling.innerHTML.trim() === '${locator_label}') return true; else return false;}
+    Log To Console  ------------------------
+    Log To Console  ${bool}
+    Log To Console  ------------------------
+    IF    not ${bool}
+        #Wait until element is visible    //label[text()='${locator_label}']
+        #Wait Until Keyword Succeeds     ${TimeOut}      ${Start}      click element   //label[text()='${locator_label}']
+        #Click Item  //label[text()='${locator_label}' and @md='10']
+        Click Item  //label[text()='${locator_label}']
+    END
+
+
+
+
+#

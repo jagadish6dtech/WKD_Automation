@@ -34,9 +34,9 @@ TEST CASE 010
     Login to SSO UI  ${CRM_CREDENTIAL}[username]  ${CRM_CREDENTIAL}[password]
 
 
-   Skip OrderId  TC_001  TD_01
+   #Skip OrderId  TC_001  TD_01
 
-   Retry OrderId  TC_001  TD_04
+   Retry OrderId  TC_001  TD_05
 
 
 

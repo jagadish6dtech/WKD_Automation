@@ -24,11 +24,11 @@ ${Start}        1s
 
 Login to SSO UI
     [Arguments]  ${user}  ${pass}
-    Wait Until Keyword Succeeds     ${TimeOut}      ${Start}      click element   ${LoginPage}[UserName]
-    Wait Until Keyword Succeeds     ${TimeOut}      ${Start}      input text      ${LoginPage}[UserName]      ${user}
-    click element   ${LoginPage}[Password]
-    input text      ${LoginPage}[Password]     ${pass}
-    click element   ${LoginPage}[Loginbtn]
+    Wait Until Keyword Succeeds     ${TimeOut}      ${Start}      SeleniumLibrary.click element   ${LoginPage}[UserName]
+    Wait Until Keyword Succeeds     ${TimeOut}      ${Start}      SeleniumLibrary.input text      ${LoginPage}[UserName]      ${user}
+    SeleniumLibrary.click element   ${LoginPage}[Password]
+    SeleniumLibrary.input text      ${LoginPage}[Password]     ${pass}
+    SeleniumLibrary.click element   ${LoginPage}[Loginbtn]
     sleep  10s
 
 
